@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:700&display=swap" rel="stylesheet">
+    <title>Let's play drum</title>
+    <link rel="stylesheet" href="drum.css">
+</head>
+
+<body>
+
+    <div class="keys">
+        <div class="key" data-key="65">
+            <kdb>A</kdb>
+            <span class="sound">clap</span>
+        </div>
+
+        <div class="key" data-key="90">
+            <kdb>Z</kdb>
+            <span class="sound">hihat</span>
+        </div>
+
+        <div class="key" data-key="69">
+            <kdb>E</kdb>
+            <span class="sound">kick</span>
+        </div>
+
+        <div class="key" data-key="82">
+            <kdb>R</kdb>
+            <span class="sound">openhat</span>
+        </div>
+
+        <div class="key" data-key="84">
+            <kdb>T</kdb>
+            <span class="sound">boom</span>
+        </div>
+
+        <div class="key" data-key="89">
+            <kdb>Y</kdb>
+            <span class="sound">ride</span>
+        </div>
+
+        <div class="key" data-key="85">
+            <kdb>U</kdb>
+            <span class="sound">snare</span>
+        </div>
+
+        <div class="key" data-key="73">
+            <kdb>I</kdb>
+            <span class="sound">tom</span>
+        </div>
+
+        <div class="key" data-key="79">
+            <kdb>O</kdb>
+            <span class="sound">tink</span>
+        </div>
+    </div>
+
+    <audio data-key="65" src="sounds/clap.wav"></audio>
+    <audio data-key="90" src="sounds/hihat.wav"></audio>
+    <audio data-key="69" src="sounds/kick.wav"></audio>
+    <audio data-key="82" src="sounds/openhat.wav"></audio>
+    <audio data-key="84" src="sounds/boom.wav"></audio>
+    <audio data-key="89" src="sounds/ride.wav"></audio>
+    <audio data-key="85" src="sounds/snare.wav"></audio>
+    <audio data-key="73" src="sounds/tom.wav"></audio>
+    <audio data-key="79" src="sounds/tink.wav"></audio>
+
+    <script>
+        function playSound(e) {
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+            if (!audio) {
+                return; // stop the function from running all together
+            }
+
+            audio.currentTime = 0;
+            audio.play();
+            key.classList.add('playing');
+        }
+
+        function removeTransition(e) {
+            if (e.propertyName !== 'transform') return; // skip if its not a transform == transitionend !
+            console.log(e.propertyName);
+            this.classList.remove('playing');
+        }
+        const keys = document.querySelectorAll('.key');
+        keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+        window.addEventListener('keydown', playSound);
+    </script>
+
+
+</body>
+
+</html>
